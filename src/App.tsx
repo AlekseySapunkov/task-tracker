@@ -13,17 +13,25 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [editTask, setEditTask] = useState<Task | null>(null);
   const addTask = () => {
-    if (newTask.trim() === "") {
+    const trimmedNormilizedInput = newTask.trim().toLowerCase();
+    if (trimmedNormilizedInput === "") {
       setError("Данное поле должно быть заполнено");
       return;
     }
-    if (newTask.trim().length < 3) {
+    const exists = tasks.find(
+      (task) => task.text.trim().toLowerCase() === trimmedNormilizedInput
+    );
+    if (exists) {
+      setError("Такая задача уже есть");
+      return;
+    }
+    if (trimmedNormilizedInput.length < 3) {
       setError("Текст задачи должен быть более 3 символов");
       return;
     }
     const task: Task = {
       id: Date.now(),
-      text: newTask.trim(),
+      text: trimmedNormilizedInput,
       done: false,
     };
 
