@@ -32,8 +32,8 @@ export default function App() {
     const task: Task = {
       id: Date.now(),
       text:
-        trimmedNormilizedInput[0].toUpperCase() +
-        trimmedNormilizedInput.substring(1),
+        trimmedNormilizedInput.charAt(0).toUpperCase() +
+        trimmedNormilizedInput.slice(1),
       done: false,
     };
 
