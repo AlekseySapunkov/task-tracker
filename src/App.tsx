@@ -6,12 +6,21 @@ interface Task {
   done: boolean;
 }
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTask, setNewTask] = useState<string>("");
+  const [tasks, setTasks] = useState<
+    { id: number; text: string; done: boolean }[]
+  >([]);
+  const [newTask, setNewTask] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [editTask, setEditTask] = useState<Task | null>(null);
   const addTask = () => {
-    if (newTask.trim() === "") return;
-
+    if (newTask.trim() === "") {
+      setError("Данное поле должно быть заполнено");
+      return;
+    }
+    if (newTask.trim().length < 3) {
+      setError("Текст задачи должен быть более 3 символов");
+      return;
+    }
     const task: Task = {
       id: Date.now(),
       text: newTask.trim(),
@@ -20,6 +29,7 @@ export default function App() {
 
     setTasks([...tasks, task]);
     setNewTask("");
+    setError(null);
   };
 
   return (
@@ -34,6 +44,7 @@ export default function App() {
             onChange={(e) => setNewTask(e.target.value)}
             placeholder="Новая задача"
           />
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
           <button
             onClick={addTask}
             className="bg-blue-500 text-white px-4 rounded hover:bg-blue-700 transition"
