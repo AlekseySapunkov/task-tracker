@@ -54,7 +54,6 @@ export default function App() {
             onChange={(e) => setNewTask(e.target.value)}
             placeholder="Новая задача"
           />
-          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
           <button
             onClick={addTask}
             className="bg-blue-500 text-white px-4 rounded hover:bg-blue-700 transition"
@@ -62,6 +61,19 @@ export default function App() {
             Добавить
           </button>
         </div>
+        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+        <ul className="mt-6 space-y-2 w-full">
+          {tasks.map((task) => (
+            <li
+              key={task.id}
+              className="flex items-center justify-between p-2 border rounded bg-gray-50"
+            >
+              <span className={task.done ? "line-through text-gray-400" : ""}>
+                {task.text}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
