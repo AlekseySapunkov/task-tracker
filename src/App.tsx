@@ -41,7 +41,16 @@ export default function App() {
     setNewTask("");
     setError(null);
   };
-
+  const toggleDone = (id: number) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+  const deleteTask = (id: number) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="p-6 bg-white rounded shadow-md w-full max-w-md">
@@ -68,9 +77,20 @@ export default function App() {
               key={task.id}
               className="flex items-center justify-between p-2 border rounded bg-gray-50"
             >
-              <span className={task.done ? "line-through text-gray-400" : ""}>
+              <span
+                onClick={() => toggleDone(task.id)}
+                className={`cursor-pointer flex-1 ${
+                  task.done ? "line-through text-gray-400" : ""
+                }`}
+              >
                 {task.text}
               </span>
+              <button
+                onClick={() => deleteTask(task.id)}
+                className="ml-2 text-red-500 hover:text-red-700"
+              >
+                ✕
+              </button>
             </li>
           ))}
         </ul>
